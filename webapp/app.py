@@ -1,9 +1,12 @@
 from flask import Flask, render_template , request
 variables=['name','phone','email']
+'''
+
+'''
 def checkhtml(file,variables):
     import os
     path=os.path.dirname(os.path.realpath(__file__))
-    f=open(path+'/templates/'+file+'.plan','r')
+    f=open(path+'\\templates\\'+file+'.plan','r')
     html=f.read()
     f.close()
     #htmlss is html split split
@@ -68,7 +71,7 @@ def checkhtml(file,variables):
         if i!='':
             html=html+'\n' + i
     
-    f=open(path+'/templates/'+file+'.html','w')
+    f=open(path+'\\templates\\'+file+'.html','w')
     f.write(html)
     f.close()
     return html
@@ -76,16 +79,23 @@ def checkhtml(file,variables):
 app = Flask(__name__)
 
 @app.route('/')
-@app.route('/')
-def my_form():
-    return render_template('index.html')
+def about():
+    checkhtml('about',[])
+    return render_template('about.html')
 
-@app.route('/login', methods=['POST'])
-def my_form_post():
-    user = ['Username']
-    
-    #authenticate
-    return text
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    #checkhtml('login',[])
+    if request.method == 'POST':
+        text = request.form['button']
+        processed_text = text.upper()
+    return render_template('login.html')
+@app.route("/forward/", methods=['POST'])
+def logging():
+    #authorisation stuff
+    print('do stuff')
+
+
 @app.route('/endpoint')
 def end():
     name= 'me'

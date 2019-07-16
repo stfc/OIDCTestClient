@@ -1,0 +1,47 @@
+body {
+    background: rgba(160, 255, 80, 1);
+    background-image: linear-gradient(to top left,
+                                      rgba(0, 0, 0, .2),
+                                      rgba(0, 0, 0, .2) 50%,
+                                      rgba(0, 0, 0, 0));
+    color: Black;
+}
+
+.styled {
+    text-align: center;
+    border: 0;
+    line-height: 10;
+    padding: 0 200px;
+    font-size: 4rem;
+    text-align: center;
+    color: #fff;
+    text-shadow: 15px 15px 15px #000;
+    border-radius: 0px;
+    background-color: rgba(160, 255, 80, 1);
+    background-image: linear-gradient(to top left,
+                                      rgba(0, 0, 0, .2),
+                                      rgba(0, 0, 0, .2) 120%,
+                                      rgba(0, 0, 0, 0));
+    #box-shadow: inset 5px 5px 5px rgba(255, 255, 255, .6),
+                #inset -2px -2px 3px rgba(0, 0, 0, .6);
+}
+
+    
+
+wrapper {
+    text-align: center;
+}
+
+button {
+   position: fixed;
+   left: 32.75%;
+   top:22.5%;
+ }
+
+.styled:hover {
+    background-color: rgba(100, 255, 255, 1);
+
+.styled:active {
+    box-shadow: inset -2px -2px 3px rgba(255, 255, 255, .6),
+                inset 2px 2px 3px rgba(0, 0, 0, .6);
+}
