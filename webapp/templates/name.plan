@@ -1,0 +1,9 @@
+<html>
+<body>
+<h1>Hi</h1>
+<h1>Hello {{ name }}!</h1>
+<p>I believe your email is {{ email }} </p>
+<div>
+<p>I believe your phone number is  {{ phone }} </p>
+</body>
+</html>
