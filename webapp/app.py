@@ -132,13 +132,15 @@ def logout():
 @app.route("/forward/", methods=['POST'])
 @auth.oidc_auth(PROVIDER_NAME1)
 
-def logging():
+def loggin():
     #authorisation stuff
     user_session = UserSession(flask.session)
     data = jsonify(access_token=user_session.access_token,
                    id_token=user_session.id_token,
                    userinfo=user_session.userinfo)
-    global parseddata = json.loads(data)
+    global parseddata
+    parseddata= json.loads(data)
+    return None
     
 @app.route('/endpoint')
 def end():
