@@ -15,13 +15,16 @@ def rn2(var):
         :param var: variable to get name from.
         :return: string
         """
+        names=[]
         for fi in reversed(inspect.stack()):
-            names = [var_name for var_name, var_val in fi.frame.f_locals.items() if var_val is var]
-            if len(names) > 0:
-                return names[0]
+            names.append(var_name for var_name, var_val in fi.frame.f_locals.items() if var_val is var)
+        return names
 def rn3(var):
+    a=[]
+   
     callers_local_vars = inspect.currentframe().f_back.f_locals.items()
-    return str([k for k, v in callers_local_vars if v is var][0])
+    a.append( str([k for k, v in callers_local_vars if v is var][0]))
+    return a
 def variable_list(data,possible_variables):
     nd=[]
     pv=possible_variables
@@ -106,59 +109,57 @@ def checkhtml(file,variables):
     f.close()
     return html
 
-app = Flask(__name__)
 
-@app.route('/')
+
+
 def about():
     checkhtml('about',[])
     return render_template('about.html')
 
-@app.route('/login', methods=['GET', 'POST'])
 def login():
     #checkhtml('login',[])
     if request.method == 'POST':
         text = request.form['button']
         processed_text = text.upper()
     return render_template('login.html')
-@app.route("/forward/", methods=['POST'])
+
 def logging():
     #authorisation stuff
     print('do stuff')
 
 
-@app.route('/endpoint')
 def end():
-    name='h,agf,jgaf,asgdfemjfgrymaymaymgarh,ayhdfga,hdfg,jadsf'
-    email='ak,hdf,ahdsf,ajdhfjdhsvjfrshfja,rh,fasbhhfb,jr,srjabh'
-    phone=',asrh,bsbhf,ashrbf,sjrhbfj,srbhfg,rsjhbfharbsbjfs,jfb'
-    access_token='as.,hrkbahfb,arjhgrhgfrhrhfbbbbfhrhrhbhrbfarfsaf'
-    token_type=',ashr,ahsbagfr,jabf,hraeghtjrea,jhgjarhg,ragaer,j'
-    expires_in=',ahr,ahefrjebfjher,fbrejhfbrhefbrhjefbjfrehbfjerhfje'
-    refresh_token='a,hrbf,eahb,jtrgtrht,jargh,jea,jeafbr,jhebea,jrb'
-    scope='a.rhe,,,,,,,,,,,,,,,frgjeh,ag,jghea,jfrgheaf,jhrg,rhghragj'
+    name=1
+    email=1
+    phone=1
+    access_token=1
+    token_type=1
+    expires_in=1
+    refresh_token=1
+    scope=1
     global pv
     data={"access_token":"MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3",
       "token_type":"bearer",
       "expires_in":3600,
       "refresh_token":"IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk",
       "scope":"create",
-      'name':'anyone',
-      'email':'me@gmail.co.uk',
-      'phone':'007'
-      }
+      'name':'me',
+      'email':'me@gmail.com',
+      'phone':'007'}
     cv=[]
     nd=variable_list(data,possible_variables)
     for i in range(0,len(nd)):
         if nd[i]!=0:
             cv.append(pv[i])
-    checker=nd[pv.index(rn(name)[0])]
+    y = [ k for k,v in locals().iteritems() if v == email][0]
+    x=pv.index(y)
+    checker=nd[x]
     
-    
+    print(checker,x,y)
     
     checkhtml('name',cv)
-    return render_template('name.html',name=checker,email=nd[pv.index(rn(email)[0])],phone=nd[pv.index(rn(phone)[0])])
+    
 #@app.route('/hello/<name>')
 #def hello(name):
     #return render_template('name.html', name=name)
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+end()
