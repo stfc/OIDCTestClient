@@ -2,26 +2,36 @@ import datetime
 import flask
 import logging
 import inspect
-from flask import Flask, jsonify, render_template , request
+import requests
 import json
+
+from flask import Flask, jsonify, render_template , request
 from flask_pyoidc.flask_pyoidc import OIDCAuthentication
 from flask_pyoidc.provider_configuration import ProviderConfiguration, ClientMetadata
 from flask_pyoidc.user_session import UserSession
+
 app = Flask(__name__)
-'''
+
 # See http://flask.pocoo.org/docs/0.12/config/
-app.config.update({'SERVER_NAME': 'localhost:5000',
+app.config.update({'SERVER_NAME': 'IP GOES HERE',
                    'SECRET_KEY': 'dev_key',  # make sure to change this!!
                    'PERMANENT_SESSION_LIFETIME': datetime.timedelta(days=7).total_seconds(),
                    'PREFERRED_URL_SCHEME': 'http',
                    'DEBUG': True})
-ISSUER1 = 'https://provider1.example.com'
-CLIENT1 = 'client@provider1'
-PROVIDER_NAME1 = 'provider1'
-PROVIDER_CONFIG1 = ProviderConfiguration(issuer=ISSUER1,
-                                         client_metadata=ClientMetadata(CLIENT1, 'secret1'))
-auth = OIDCAuthentication({PROVIDER_NAME1: PROVIDER_CONFIG1})
-'''
+
+ISSUER = 'ISSUER GOES HERE'
+CLIENT = 'CLIENT GOES HERE'
+CLIENTSECRET = 'SECRET GOES HERE'
+PROVIDER_NAME = 'NAME GOES HERE'
+sslSession = requests.session()
+#sslSession.verify_ssl = False
+sslSession.verify_ssl = True
+#sslSession.path = "/etc/pki/tls/certs/ca-bundle.crt" 
+sslSession.verify = "/etc/pki/tls/certs/ca-bundle.crt"
+PROVIDER_CONFIG = ProviderConfiguration(issuer=ISSUER,
+                                         client_metadata=ClientMetadata(CLIENT, CLIENTSECRET), requests_session = sslSession)
+auth = OIDCAuthentication({PROVIDER_NAME: PROVIDER_CONFIG})
+
 data=0
 variables=['name','phone','email']
 possible_variables=['name','email','phone','access_token','token_type','expires_in','refresh_token','scope']
@@ -54,7 +64,7 @@ def variable_list(data,possible_variables):
 def checkhtml(file,variables):
     import os
     path=os.path.dirname(os.path.realpath(__file__))
-    f=open(path+'\\templates\\'+file+'.plan','r')
+    f=open(path+'//templates//'+file+'.plan','r')
     html=f.read()
     f.close()
     #htmlss is html split split
@@ -103,13 +113,13 @@ def checkhtml(file,variables):
     for i in htmls:
         if i!='':
             html=html+'\n' + i
-    f=open(path+'\\templates\\'+file+'.html','w')
+    f=open(path+'//templates//'+file+'.html','w')
     f.write(html)
     f.close()
     return html
 
 
-#@auth.error_view
+@auth.error_view
 def error(error=None, error_description=None):
     return jsonify({'error': error, 'message': error_description})
 
@@ -127,22 +137,26 @@ def login():
     return render_template('login.html')
 
 @app.route('/logout')
-#@auth.oidc_logout
+@auth.oidc_logout
 def logout():
     return "You've been successfully logged out!"
 
 @app.route("/forward/", methods=['POST'])
-#@auth.oidc_auth(PROVIDER_NAME1)
+
+@auth.oidc_auth(PROVIDER_NAME)
+
 
 def loggin():
     #authorisation stuff
     user_session = UserSession(flask.session)
+    user_session.verify_ssl = True
+    user_session.verify = "/etc/pki/tls/certs/ca-bundle.crt"
     data = jsonify(access_token=user_session.access_token,
                    id_token=user_session.id_token,
                    userinfo=user_session.userinfo)
     global parseddata
     parseddata= json.loads(data)
-    return None
+    return data
     
 @app.route('/endpoint')
 def end():
