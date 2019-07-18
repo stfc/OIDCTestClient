@@ -1,6 +1,8 @@
 # OIDCTestClient
 A simple Flask webserver with an OIDC client endpoint, for use with testing authentication flows.
 
+This was initially developed by @BranHawkes as part of a Work Exeprience placement, and utilises https://github.com/zamzterz/Flask-pyoidc
+
 ## License
 
  Copyright 2019 STFC
