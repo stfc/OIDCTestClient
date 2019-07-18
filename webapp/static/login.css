@@ -32,14 +32,16 @@ wrapper {
     text-align: center;
 }
 
-button {
-   position: fixed;
+button {  
+  position: fixed;
+   
+   top: 27.5%;
    left: 32.75%;
-   top:22.5%;
+   
  }
 
 .styled:hover {
-    background-color: rgba(100, 255, 255, 1);
+    background-color: rgba(100, 150, 150, 1);
 
 .styled:active {
     box-shadow: inset -2px -2px 3px rgba(255, 255, 255, .6),

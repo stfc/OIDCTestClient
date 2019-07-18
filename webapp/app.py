@@ -8,6 +8,7 @@ from flask_pyoidc.flask_pyoidc import OIDCAuthentication
 from flask_pyoidc.provider_configuration import ProviderConfiguration, ClientMetadata
 from flask_pyoidc.user_session import UserSession
 app = Flask(__name__)
+'''
 # See http://flask.pocoo.org/docs/0.12/config/
 app.config.update({'SERVER_NAME': 'localhost:5000',
                    'SECRET_KEY': 'dev_key',  # make sure to change this!!
@@ -20,6 +21,7 @@ PROVIDER_NAME1 = 'provider1'
 PROVIDER_CONFIG1 = ProviderConfiguration(issuer=ISSUER1,
                                          client_metadata=ClientMetadata(CLIENT1, 'secret1'))
 auth = OIDCAuthentication({PROVIDER_NAME1: PROVIDER_CONFIG1})
+'''
 data=0
 variables=['name','phone','email']
 possible_variables=['name','email','phone','access_token','token_type','expires_in','refresh_token','scope']
@@ -107,7 +109,7 @@ def checkhtml(file,variables):
     return html
 
 
-@auth.error_view
+#@auth.error_view
 def error(error=None, error_description=None):
     return jsonify({'error': error, 'message': error_description})
 
@@ -125,12 +127,12 @@ def login():
     return render_template('login.html')
 
 @app.route('/logout')
-@auth.oidc_logout
+#@auth.oidc_logout
 def logout():
     return "You've been successfully logged out!"
 
 @app.route("/forward/", methods=['POST'])
-@auth.oidc_auth(PROVIDER_NAME1)
+#@auth.oidc_auth(PROVIDER_NAME1)
 
 def loggin():
     #authorisation stuff
@@ -153,7 +155,7 @@ def end():
     refresh_token='a,hrbf,eahb,jtrgtrht,jargh,jea,jeafbr,jhebea,jrb'
     scope='a.rhe,,,,,,,,,,,,,,,frgjeh,ag,jghea,jfrgheaf,jhrg,rhghragj'
     global pv
-    """data={"access_token":"MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3",
+    trial={"access_token":"MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3",
       "token_type":"bearer",
       "expires_in":3600,
       "refresh_token":"IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk",
@@ -161,9 +163,12 @@ def end():
       'name':'anyone',
       'email':'me@gmail.co.uk',
       'phone':'007'
-      }"""
+      }
     global parseddata
-    data=parseddata
+    try:
+        data=parseddata
+    except:
+        data=trial
     cv=[]
     nd=variable_list(data,possible_variables)
     for i in range(0,len(nd)):
@@ -178,6 +183,6 @@ def end():
 
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    auth.init_app(app)
+    #logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    #auth.init_app(app)
     app.run(debug=True, host='0.0.0.0')
