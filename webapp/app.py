@@ -12,15 +12,15 @@ from flask_pyoidc.user_session import UserSession
 
 app = Flask(__name__)
 # See http://flask.pocoo.org/docs/0.12/config/
-app.config.update({'SERVER_NAME': '172.16.114.80:5000',
+app.config.update({'SERVER_NAME': 'IP GOES HERE',
                    'SECRET_KEY': 'dev_key',  # make sure to change this!!
                    'PERMANENT_SESSION_LIFETIME': datetime.timedelta(days=7).total_seconds(),
                    'PREFERRED_URL_SCHEME': 'http',
                    'DEBUG': True})
-ISSUER = 'https://iris-iam.stfc.ac.uk'
-CLIENT = '069f2613-149e-4559-9186-4e22531b0ac8'
-CLIENTSECRET = 'ALWbpn-owvymydQooDkgFQ4JR9fjpr80mqz_s18RI4G48dIQxqZnLg28AgYoMSqb-VDEMHd5IDr-yJGgblBmtb4'
-PROVIDER_NAME = 'IRIS-IAM'
+ISSUER = 'ISSUER GOES HERE'
+CLIENT = 'CLIENT GOES HERE'
+CLIENTSECRET = 'SECRET GOES HERE'
+PROVIDER_NAME = 'NAME GOES HERE'
 sslSession = requests.session()
 #sslSession.verify_ssl = False
 sslSession.verify_ssl = True
