@@ -145,9 +145,15 @@ def logout():
 @auth.oidc_auth(PROVIDER_NAME)
 def loggin():
     #authorisation stuff
+    #user_session.verify_ssl = True
+    #user_session.verify = "/etc/pki/tls/certs/ca-bundle.crt"
+    f=open('debug.bug','w')
+    f.close()
     user_session = UserSession(flask.session)
-    user_session.verify_ssl = True
-    user_session.verify = "/etc/pki/tls/certs/ca-bundle.crt"
+    f=open('debug.bug')
+    f.write(user_session)
+    f.close()
+    
     data = jsonify(access_token=user_session.access_token,
                    id_token=user_session.id_token,
                    userinfo=user_session.userinfo)
